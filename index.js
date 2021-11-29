@@ -18,6 +18,8 @@ dbConnection();
 // User:mean_freddy
 //password: Nd5GvPsEyPKhlN8D
 
+//Directorio publico
+app.use(express.static('public'));
 
 //RUTAS
 app.use('/api/upload', require('./routes/upload'));

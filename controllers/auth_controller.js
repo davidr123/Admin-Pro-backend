@@ -3,6 +3,8 @@ const Usuario = require("../models/usuario");
 const bcrypt= require('bcryptjs');
 const { validarCampos } = require("../middlewares/validar-campos");
 const { generarJWT } = require("../helpers/jwt");
+const { veryGoogle } = require("../helpers/google-verify");
+const usuario = require("../models/usuario");
 
 
 const login = async(req, res= response)=>{
@@ -49,6 +51,55 @@ const token = await generarJWT(usuarioDb.id);
     }
 }
 
+
+const gooleSingin= async(req, res= response)=>{
+
+    const GoogleToken= req.body.token;
+
+    try{
+        const{name, email, picture} =  await  veryGoogle(GoogleToken);
+
+      const UsuarioDB= await Usuario.findOne({email});
+
+        let usuario;
+
+        if(!UsuarioDB){
+            usuario= new Usuario({
+nombre: name,
+email,
+img:picture,
+password:'@@@',
+google:true
+
+            });
+        }else{
+            usuario= UsuarioDB;
+            usuario.google= true;
+
+        }
+
+      await usuario.save();
+        //generar JWT
+        const token = await generarJWT(usuario.id);
+   
+        res.json({
+            ok:true,
+            token
+        });
+
+    }catch(error){
+        console.log(error);
+        res.status(401).json({
+            ok:false,
+            msg:'Token no es correcto'
+        })
+    }
+
+    
+}
+
+
 module.exports={
-    login
+    login,
+    gooleSingin
 }
