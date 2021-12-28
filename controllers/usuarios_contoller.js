@@ -99,7 +99,15 @@ const uid= req.params.id;
             }
         }
 
-         campos.email= email;
+        if(!usuarioBD.google){
+            campos.email= email;
+        }else if(usuarioBD.email !== email){
+return res.status(400).json({
+    ok:false,
+    msg:'Usuario de google no puede cambiar su correo'
+})
+        }
+       
     
        const actualizarUsuario= await Usuario.findByIdAndUpdate(uid, campos, {new: true});
 

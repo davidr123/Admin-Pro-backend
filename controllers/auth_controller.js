@@ -105,9 +105,14 @@ const uid = req.uid
  //generar JWT
  const token = await generarJWT(uid);
 
+ //Obtenr el usuario por UID
+
+ const usuario = await Usuario.findById(uid);
+
     res.json({
         ok:true,
-        token
+        token,
+        usuario
     })
 }
 
