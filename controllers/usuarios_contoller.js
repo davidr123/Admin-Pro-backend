@@ -142,7 +142,7 @@ try{
         })
     }
 
-    await Usuario.findOneAndDelete(idborrado);
+    await Usuario.findByIdAndDelete(idborrado);
 
     res.json({
         ok:true,
@@ -150,7 +150,7 @@ try{
     })
 }catch(error){
 console.log(error);
-res.status(400).json({
+res.status(500).json({
     ok:false,
     msg:'Hable con el administrador'
 });

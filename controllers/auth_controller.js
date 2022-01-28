@@ -5,6 +5,7 @@ const { validarCampos } = require("../middlewares/validar-campos");
 const { generarJWT } = require("../helpers/jwt");
 const { veryGoogle } = require("../helpers/google-verify");
 const usuario = require("../models/usuario");
+const { menuFrontend } = require("../helpers/menu-frontend");
 
 
 const login = async(req, res= response)=>{
@@ -39,7 +40,8 @@ const token = await generarJWT(usuarioDb.id);
 
         res.json({
             ok:true,
-            token
+            token,
+            menu:menuFrontend(usuarioDb.role)
         });
 
     }catch(error){
@@ -84,7 +86,8 @@ google:true
    
         res.json({
             ok:true,
-            token
+            token,
+            menu:menuFrontend(usuario.role)
         });
 
     }catch(error){
@@ -112,7 +115,8 @@ const uid = req.uid
     res.json({
         ok:true,
         token,
-        usuario
+        usuario,
+        menu:menuFrontend(usuario.role)
     })
 }
 
