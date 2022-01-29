@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express= require('express');
+const path= require('path');
 const cors= require('cors');
 const {dbConnection}= require('./database/config');
 
@@ -30,7 +31,11 @@ app.use('/api/usuarios', require('./routes/usuarios'));
 app.use('/api/login', require('./routes/auth'));
 
 
+//Lo ultimo
 
+app.get('*', (req, res)=>{
+    res.sendFile(path.resolve(__dirname, 'public/index.html'));
+});
 
 app.listen(process.env.PORT, ()=>{
     console.log('Servidor corriendo en puerto ' );
