@@ -14,6 +14,32 @@ const hospitalDB= await Hospital.find().populate('usuario','nombre');
     })
 }
 
+
+const getHospitalesById = async(req, res = response) => {
+
+    const id= req.params.id;
+
+    try {
+        const hospitalDB= await Hospital.findById(id)
+        .populate('usuario','nombre');
+        
+        
+            res.json({
+                ok: true,
+                hospitalDB
+            })
+        
+    } catch (error) {
+        console.log(error)
+        res.json({
+            ok: false,
+         msg:'Hable con el administrador'
+        })
+    }
+
+   
+    }
+
 const crearHospital = async(req, res = response) => {
 
     const uid = req.uid;
@@ -125,5 +151,6 @@ module.exports = {
     getHospitales,
     crearHospital,
     actualizarHospital,
-    borrarHospital
+    borrarHospital,
+    getHospitalesById
 }

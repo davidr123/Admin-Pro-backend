@@ -2,7 +2,7 @@ const { response } = require("express");
 const Usuario = require('../models/usuario');
 const Medico = require('../models/medico');
 const Hospital = require('../models/hospital');
-
+const Producto= require('../models/producto');
 
 
 
@@ -83,7 +83,43 @@ const [usuarios, medicos, hospitales]= await Promise.all([
 
 }
 
+
+//BUSQUEDA
+const getBusquedabyProducto=async(req, res= response)=>{
+
+    try{
+ 
+        const busquedaproducto = req.params.busquedaproducto;
+        const regexp= new RegExp(busquedaproducto, 'i');
+      
+    
+    
+    const [productos]= await Promise.all([
+     
+        Producto.find({descripcion:regexp}).exec()
+ ]);
+      
+   
+        res.json({
+            ok:true,
+            msg:'getTodo',
+            productos
+        });
+    
+    }catch(error){
+        res.status(500).json({
+            ok:false,
+            msg:'Hable con el admin'
+        });
+    }
+    
+      
+    
+    }
+    
+
 module.exports={
     getBusqueda,
-    getTablaCollecion
+    getTablaCollecion,
+    getBusquedabyProducto
 }

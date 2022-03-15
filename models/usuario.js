@@ -1,5 +1,5 @@
 const {Schema, model}= require('mongoose');
-
+const mongoose= require('mongoose');
 
 const UsuarioSchema = Schema({
     nombre:{
@@ -27,7 +27,8 @@ const UsuarioSchema = Schema({
     google:{
         type:Boolean,
         default: false
-    }
+    },
+
 });
 
 

@@ -15,9 +15,10 @@ const getUsuarios= async (req, res)=>{
 
 
  const [usuarios, total]= await Promise.all([
-      Usuario.find({}, 'nombre email google img')
+      Usuario.find({}, 'nombre email google img role')
       .skip(desde)
-      .limit(5),
+      .limit(),
+      //si usas angular materia no es necesario mandarle valor al limit si no si 
 
       Usuario.countDocuments()
   ]);    
@@ -28,6 +29,43 @@ const getUsuarios= async (req, res)=>{
         total
     });
 }
+
+
+//PRODUCTO
+const getUsuariosByNombre= async (req, res)=>{
+    const desde=Number(req.query.desde) || 0;
+ const nombre= req.params.nombre;
+try {
+
+    const [usuarios, total]= await Promise.all([
+        Usuario.find({nombre}, ' email ')
+        .populate('productos', 'descripcion codigo cantidad precio')
+        .skip(desde)
+        .limit(),
+
+        Usuario.countDocuments()
+    ]);    
+
+    res.json({
+        ok:true,
+        usuarios,
+        total
+      
+    });
+    
+} catch (error) {
+    res.json({
+        ok:false,
+        msg:'Hable con el administrador'
+      
+    });
+}
+
+}
+
+
+
+
 
 const CrearUsuarios= async (req, res= response)=>{
 
@@ -163,6 +201,7 @@ module.exports={
     getUsuarios,
     CrearUsuarios,
     actualizarUsuario,
-    borrarUsuario
+    borrarUsuario,
+    getUsuariosByNombre
     
 }

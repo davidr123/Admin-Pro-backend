@@ -30,6 +30,9 @@ app.use('/api/hospitales', require('./routes/hospitales'));
 app.use('/api/usuarios', require('./routes/usuarios'));
 app.use('/api/login', require('./routes/auth'));
 
+//PRODUCTOS
+app.use('/api/productos', require('./routes/productos'));
+app.use('/api/usuariospedido', require('./routes/usuariospedido'));
 
 //Lo ultimo
 
